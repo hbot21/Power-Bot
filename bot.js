@@ -245,6 +245,19 @@ client.on('message', async message => {
    }}
 )
 
+client.on('message', message => {
+    if (message.content.startsWith(prefix + 'setvoice')) {
+    if (message.author.bot) return;
+    if (!message.channel.guild) return message.reply('❌ | This Command Only In Servers');
+    var MrxVoiceChat = ` Voice Online  :  [ __${message.guild.members.filter(s => s.voiceChannel).size}__ ] `;
+      let MrxVoice = new Discord.RichEmbed()
+      .setColor('BLUE')
+      .addField('**⬇ VoiceOnline 🎤    **',`**${MrxVoiceChat}**`, true)
+      .setFooter(message.author.username,message.author.avatarURL)
+      message.channel.sendEmbed(MrxVoice);
+    }
+    });
+
 // THIS  MUST  BE  THIS  WAY
 client.login(process.env.BOT_TOKEN);
 
