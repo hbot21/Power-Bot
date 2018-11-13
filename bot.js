@@ -139,6 +139,95 @@ client.on("guildMemberAdd", member => {
 
 
 client.on('message', message => {
+    if (message.author.bot) return;
+     if (message.content === prefix + "help") {
+		 message.channel.send('**تم ارسال ألاومر في الخاص**');
+            
+	
+		 
+
+ message.author.sendMessage(`
+ **
+__Vip Bot__
+بأمكانك دعوة البوت  : 
+https://discordapp.com/oauth2/authorize?client_id=481622608534831104&permissions=8&scope=bot
+ الأوامر العامة 
+$cr-colors : انشاء 50 لون
+$colors  : قائمة الألوان
+$color   : لتغيير لونك في السيرفر
+$bc   : برودكاست اعضاء السيرفر
+$avatar	: اذهر صورتك
+
+ أوامر ادارة السيرفرات 
+$mute : اعطاء عضو ميوت
+$unmute : لفك عن العضو الميوت
+$role  : عطاء عضو رتبة
+$role all : اعطاء رتبة حميع الاعضاء
+$clear : مسح الشات
+  اخري
+$inv  : لدعوة البوت الى سيرفرك
+$ping  : لمعرفة سرعة استجابة البوت في الوقت الحالي
+$support  : سيرفر الدعم الفني
+**
+`);
+
+    }
+});
+
+
+client.on('message', message => {
+    if (message.author.bot) return;
+     if (message.content === prefix + "inv") {
+		 message.channel.send('**تم ارسال رابط البوت في الخاص**');
+            
+	
+		 
+
+
+ message.author.sendMessage(`
+ **
+رابط البوت
+https://discordapp.com/oauth2/authorize?client_id=481622608534831104&permissions=8&scope=bot
+
+**
+`);
+
+    }
+});
+
+client.on('message', message => {
+    if (message.author.bot) return;
+     if (message.content === prefix + "support") {
+		 message.channel.send('**تم ارسال رابط السيرفر في الخاص**');
+            
+	
+		 
+
+
+ message.author.sendMessage(`
+ **
+ سيرفر المساعدة : 
+https://discord.gg/yYta4Sq
+**
+`);
+
+    }
+});
+
+
+client.on('message' , message => {
+  if(message.author.bot) return;
+  if(message.content.startsWith(prefix + "ping")) {
+ message.channel.send('pong').then((msg) => {
+var PinG = `${Date.now() - msg.createdTimestamp}`
+var ApL = `${Math.round(client.ping)}`
+      msg.edit(`\`\`\`javascript\nTime taken: ${PinG} ms.\nDiscord API: ${ApL} ms.\`\`\``);
+ })
+  }  
+ });
+
+
+client.on('message', message => {
     if (message.content === "$bot") {
            if(!message.channel.guild) return message.reply('** This command only for servers **');
     let embed = new Discord.RichEmbed()
