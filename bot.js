@@ -1078,7 +1078,7 @@ if(message.author.bot) return;
     if(!message.channel.guild) return message.channel.send('**الأمر بالسيرفرات بس**').then(m => m.delete(5000));
   if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**ماعندك الصلاحية المطلوبة**' );
     let args = message.content.split(" ").join(" ").slice(2 + prefix.length);
-    let copy = "『Power Bot』";
+    let copy = "Power Bot";
     let request = `Requested By ${message.author.username}`;
     if (!args) return message.reply('**ترسل برودكاست فاضي؟**');message.channel.send(`**متأكد؟** \` ${args}\``).then(msg => {
     msg.react('✅')
@@ -1096,10 +1096,10 @@ if(message.author.bot) return;
     var bc = new
        Discord.RichEmbed()
        .setColor('#00ff47')
-       .setTitle('**:incoming_envelope:رسالة:incoming_envelope:')
-       .addField('**:diamond_shape_with_a_dot_inside:السيرفر:diamond_shape_with_a_dot_inside:**', message.guild.name)
-       .addField('**:black_joker:المرسل:black_joker:**', message.author.username)
-       .addField(':page_facing_up:الرسالة:page_facing_up:', args)
+       .setTitle('**:incoming_envelope:رسالة**')
+       .addField('**:diamond_shape_with_a_dot_inside:السيرفر**', message.guild.name)
+       .addField('**:black_joker:المرسل**', message.author.username)
+       .addField(':page_facing_up:الرسالة', args)
        .setThumbnail(message.author.avatarURL)
        .setFooter(copy, client.user.avatarURL);
     m.send({ embed: bc })
