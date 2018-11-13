@@ -272,6 +272,20 @@ client.on('message', message => {
 
           });
 
+
+client.on('message', message => {
+if(message.content === `setvoic`) {
+  message.guild.createChannel(`Voice Online : ${message.guild.members.filter(g => g.voiceChannel).size} ` , "voice").then(c => {
+   c.overwritePermissions(message.guild.id, {CONNECT: false});
+    message.channel.send(`**Voice Online : ${message.guild.members.filter(g => g.voiceChannel).size}**`);
+    setInterval(() => {
+    c.setName(`Voice Online : ${message.guild.members.filter(g => g.voiceChannel).size} `)
+    },1000);
+  })
+
+}
+});
+
 // THIS  MUST  BE  THIS  WAY
 client.login(process.env.BOT_TOKEN);
 
