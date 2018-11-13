@@ -148,23 +148,24 @@ client.on('message', message => {
 
  message.author.sendMessage(`
  **
-__Vip Bot__
-بأمكانك دعوة البوت  : 
-https://discordapp.com/oauth2/authorize?client_id=481622608534831104&permissions=8&scope=bot
+
+
  الأوامر العامة 
 $cr-colors : انشاء 50 لون
 $colors  : قائمة الألوان
 $color   : لتغيير لونك في السيرفر
-$bc   : برودكاست اعضاء السيرفر
 $avatar	: اذهر صورتك
 
  أوامر ادارة السيرفرات 
+$bc   : برودكاست جميع اعضاء السيرفر
+$setrad : الرد التلقائي
 $mute : اعطاء عضو ميوت
 $unmute : لفك عن العضو الميوت
 $role  : عطاء عضو رتبة
 $role all : اعطاء رتبة حميع الاعضاء
 $clear : مسح الشات
-  اخري
+ 
+ اخري
 $inv  : لدعوة البوت الى سيرفرك
 $ping  : لمعرفة سرعة استجابة البوت في الوقت الحالي
 $support  : سيرفر الدعم الفني
@@ -269,7 +270,7 @@ client.on('message', message => {
 const reply = JSON.parse(fs.readFileSync('./replys.json' , 'utf8'));
 client.on('message', async message => {
     let messageArray = message.content.split(" ");
-   if(message.content.startsWith(prefix + "setReply")) {
+   if(message.content.startsWith(prefix + "setrad")) {
     let filter = m => m.author.id === message.author.id;
     let thisMessage;
     let thisFalse;
@@ -279,7 +280,7 @@ client.on('message', async message => {
        message.delete(4500);
     });
    
-    message.channel.send(':pencil: **| من فضلك اكتب الرساله الان... :pencil2: **').then(msg => {
+    message.channel.send(':pencil: **| من فضلك اكتب النص الان... :pencil2: **').then(msg => {
  
         message.channel.awaitMessages(filter, {
           max: 1,
@@ -308,9 +309,9 @@ client.on('message', async message => {
                         errors: ['time']
                       })
                       let embed = new Discord.RichEmbed()
-                      .setTitle('**Done The Autoreply Code Has Been Setup**')
-                      .addField('Message:', `${thisMessage}`)
-                      .addField('Reply:', `${boi}`)
+                      .setTitle('**تم عمل الرد التلقائي**')
+                      .addField('النص:', `${thisMessage}`)
+                      .addField('الرد:', `${boi}`)
                       .setThumbnail(message.author.avatarURL)
                       .setFooter(`${client.user.username}`)
                      message.channel.sendEmbed(embed)
@@ -1068,6 +1069,63 @@ client.on("message", message => {
         }
     }
 });
+
+client.on('message', message => {
+if(message.author.bot) return;
+              if(!message.channel.guild) return;
+    var prefix = "$";
+    if(message.content.startsWith(prefix + 'bc')) {
+    if(!message.channel.guild) return message.channel.send('**الأمر بالسيرفرات بس**').then(m => m.delete(5000));
+  if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**ماعندك الصلاحية المطلوبة**' );
+    let args = message.content.split(" ").join(" ").slice(2 + prefix.length);
+    let copy = "『Power Bot』";
+    let request = `Requested By ${message.author.username}`;
+    if (!args) return message.reply('**ترسل برودكاست فاضي؟**');message.channel.send(`**متأكد؟** \` ${args}\``).then(msg => {
+    msg.react('✅')
+    .then(() => msg.react('❌'))
+    .then(() =>msg.react('✅'))
+
+    let reaction1Filter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
+    let reaction2Filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
+
+    let reaction1 = msg.createReactionCollector(reaction1Filter, { time: 12000 });
+    let reaction2 = msg.createReactionCollector(reaction2Filter, { time: 12000 });
+    reaction1.on("collect", r => {
+    message.channel.send(`**☑ | Done ... The Broadcast Message Has Been Sent For ${message.guild.members.size} Members**`).then(m => m.delete(5000));
+    message.guild.members.forEach(m => {
+    var bc = new
+       Discord.RichEmbed()
+       .setColor('#00ff47')
+       .setTitle('**:incoming_envelope:رسالة:incoming_envelope:')
+       .addField('**:diamond_shape_with_a_dot_inside:السيرفر:diamond_shape_with_a_dot_inside:**', message.guild.name)
+       .addField('**:black_joker:المرسل:black_joker:**', message.author.username)
+       .addField(':page_facing_up:الرسالة:page_facing_up:', args)
+       .setThumbnail(message.author.avatarURL)
+       .setFooter(copy, client.user.avatarURL);
+    m.send({ embed: bc })
+    msg.delete();
+    })
+    })
+    reaction2.on("collect", r => {
+    message.channel.send(`**كنسل يا مدير**`).then(m => m.delete(5000));
+    msg.delete();
+    })
+    })
+    }
+let cooldown = new Set();
+let cdseconds = 5;
+if(!message.content.startsWith(prefix)) return;
+  if(cooldown.has(message.author.id)){
+    message.delete();
+  return  message.reply("الصبر يا أخي")
+  }
+  if(!message.member.hasPermission("ADMINISTRATOR")){
+    cooldown.add(message.author.id);
+  }
+setTimeout(() => {
+  cooldown.delete(message.author.id)
+}, cdseconds * 1000)
+    });
 
 // THIS  MUST  BE  THIS  WAY
 client.login(process.env.BOT_TOKEN);
