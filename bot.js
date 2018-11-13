@@ -177,7 +177,6 @@ client.on('message', message => {
   
   });
 
-const fs = require('fs')
 const reply = JSON.parse(fs.readFileSync('./replys.json' , 'utf8'));
 client.on('message', async message => {
     let messageArray = message.content.split(" ");
