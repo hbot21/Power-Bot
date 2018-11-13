@@ -246,17 +246,31 @@ client.on('message', async message => {
 )
 
 client.on('message', message => {
-    if (message.content.startsWith(prefix + 'setvoice')) {
-    if (message.author.bot) return;
-    if (!message.channel.guild) return message.reply('❌ | This Command Only In Servers');
-    var MrxVoiceChat = ` Voice Online  :  [ __${message.guild.members.filter(s => s.voiceChannel).size}__ ] `;
-      let MrxVoice = new Discord.RichEmbed()
-      .setColor('BLUE')
-      .addField('**⬇ VoiceOnline 🎤    **',`**${MrxVoiceChat}**`, true)
-      .setFooter(message.author.username,message.author.avatarURL)
-      message.channel.sendEmbed(MrxVoice);
-    }
-    });
+                 if(message.content === "$mc") {
+                                     if(!message.channel.guild) return message.reply("**This command only for servers**");
+
+             if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply("**__ليس لديك صلاحيات__**");
+                        message.channel.overwritePermissions(message.guild.id, {
+                      SEND_MESSAGES: false
+
+                        }).then(() => {
+                            message.reply("**__تم تقفيل الشات__ ✅ **")
+                        });
+                          }
+
+              if(message.content === "$unmc") {
+                                  if(!message.channel.guild) return message.reply("**This command only for servers**");
+
+             if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply("**__ليس لديك صلاحيات__**");
+                        message.channel.overwritePermissions(message.guild.id, {
+                      SEND_MESSAGES: true
+
+                        }).then(() => {
+                            message.reply("**__تم فتح الشات__✅**")
+                        });
+              }
+
+          });
 
 // THIS  MUST  BE  THIS  WAY
 client.login(process.env.BOT_TOKEN);
